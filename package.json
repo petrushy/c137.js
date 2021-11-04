@@ -14,7 +14,7 @@
     "test": "cp ./cesium/Source/Cesium.js ./cesium/Source/Cesium.bak && cp ./dist/c137.mjs ./cesium/Source/Cesium.js && cd cesium && npm run test && cp Source/Cesium.bak Source/Cesium.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "cesium": "^1.87.0",
     "globby": "^12.0.2",

@@ -26,3 +26,9 @@ viewer = new Viewer("cesiumContainer");
 [info@digitalarsenal.io](mailto:info@digitalarsenal.io)
 
 <br>
+
+## License
+
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+<br>
