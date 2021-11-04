@@ -48,7 +48,6 @@ import Cesium3DTileFeature from "../../Scene/Cesium3DTileFeature.js";
 import SkyBox from "../../Scene/SkyBox.js";
 import { SkyBox as SkyBoxImages } from "../../DataSources/ExternalData.js";
 import viewerCSSMixin from "./viewerCSSMixin.js";
-import resourceCheckMixin from "./resourceCheckMixin.js";
 import eventEmitterMixin from "./eventEmitterMixin.js";
 
 var boundingSphereScratch = new BoundingSphere();
