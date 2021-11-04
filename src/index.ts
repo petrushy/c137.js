@@ -43,7 +43,7 @@ const bundleMain = await rollup({
     plugins: [
         terser(),
         prep(),
-        replace("./cesium/Source", "./.Source/Source", false),
+        replace("./cesium/Source", "./src/source-files/Source", false),
         transformPlugin(),
         injectWorkers((await minify(workerSrc, {
 

@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "build": "node --loader ts-node/esm ./src/index.ts",
+    "postinstall": "mkdir -p dist",
+    "build": "npm run refresh:cesium && npm run build:widgets && npm run build:workers && node --max-old-space-size=8192 --loader ts-node/esm ./src/index.ts",
+    "build:short": "npm run build:workers && node --max-old-space-size=8192 ./src/index.js",
+    "refresh:cesium": "cd cesium && git reset --hard && git clean -fxd && git fetch && git checkout main && git pull && npm i --force && npm run build",
+    "build:workers": "rm -rf ./cesium/Source/Workers && cp -R ./cesium/Source/WorkersES6 ./cesium/Source/Workers && cp -R ./src/source-files/Source/WorkersES6/* ./cesium/Source/Workers/ && node --max-old-space-size=8192 --loader ts-node/esm ./src/workerPrep.ts",
+    "build:widgets": "ls",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
