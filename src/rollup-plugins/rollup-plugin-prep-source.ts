@@ -8,7 +8,6 @@ export function transformPlugin() {
         name: "transformPlugin",
         resolveId(source: string) {
             if (source === "TaskProcessor") {
-                console.log(source);
                 return source;
             }
             return null;
@@ -23,9 +22,6 @@ export function transformPlugin() {
                 code = `export default \`${_shaderCode}\`;`;
             }
             return code;
-        },
-        load(id: string) {
-            return null;
         }
     };
 }
