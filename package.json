@@ -11,7 +11,7 @@
     "refresh:cesium": "cd cesium && git reset --hard && git clean -fxd && git fetch && git checkout main && git pull && npm i --force && npm run build",
     "build:workers": "rm -rf ./cesium/Source/Workers && cp -R ./cesium/Source/WorkersES6 ./cesium/Source/Workers && cp -R ./src/source-files/Source/WorkersES6/* ./cesium/Source/Workers/ && node --max-old-space-size=4096 --loader ts-node/esm ./src/workerPrep.ts",
     "build:widgets": "ls",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cp ./cesium/Source/Cesium.js ./cesium/Source/Cesium.bak && cp ./dist/c137.mjs ./cesium/Source/Cesium.js && cd cesium && npm run test && cp Source/Cesium.bak Source/Cesium.js"
   },
   "author": "",
   "license": "ISC",
