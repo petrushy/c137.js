@@ -32,3 +32,7 @@ viewer = new Viewer("cesiumContainer");
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 <br>
+
+## Donation / Signing Address:
+
+ [1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7](https://live.blockcypher.com/btc/address/1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7)

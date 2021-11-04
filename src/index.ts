@@ -53,4 +53,4 @@ const bundleMain = await rollup({
 let mainSrc =
     (await bundleMain.generate(mainOptions)).output[0].code;
 
-writeFileSync(`./dist/c137.mjs`, await (mainSrc));
+writeFileSync(`./dist/c137.mjs`, (await minify(mainSrc)).code as string);
