@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "postinstall": "mkdir -p dist",
-    "build": "npm run refresh:cesium && npm run build:widgets && npm run build:workers && node --max-old-space-size=8192 --loader ts-node/esm ./src/index.ts",
-    "build:short": "npm run build:workers && node --max-old-space-size=8192 ./src/index.js",
+    "build": "npm run refresh:cesium && npm run build:workers && node --max-old-space-size=4096 --loader ts-node/esm ./src/index.ts",
+    "build:short": "npm run build:workers && node --loader ts-node/esm ./src/index.ts",
     "refresh:cesium": "cd cesium && git reset --hard && git clean -fxd && git fetch && git checkout main && git pull && npm i --force && npm run build",
-    "build:workers": "rm -rf ./cesium/Source/Workers && cp -R ./cesium/Source/WorkersES6 ./cesium/Source/Workers && cp -R ./src/source-files/Source/WorkersES6/* ./cesium/Source/Workers/ && node --max-old-space-size=8192 --loader ts-node/esm ./src/workerPrep.ts",
+    "build:workers": "rm -rf ./cesium/Source/Workers && cp -R ./cesium/Source/WorkersES6 ./cesium/Source/Workers && cp -R ./src/source-files/Source/WorkersES6/* ./cesium/Source/Workers/ && node --max-old-space-size=4096 --loader ts-node/esm ./src/workerPrep.ts",
     "build:widgets": "ls",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +20,6 @@
     "globby": "^12.0.2",
     "glsl-strip-comments": "^1.0.0",
     "rollup": "^2.59.0",
-    "rollup-plugin-terser": "^7.0.2",
     "terser": "^5.9.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4",

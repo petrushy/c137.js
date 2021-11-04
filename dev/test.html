@@ -93,6 +93,7 @@
       import * as Cesium from "../dist/c137.mjs";
 
       window.Cesium = Cesium;
+      globalThis.CESIUM_BASE_URL = "/cesium/Source";
 
       function main() {
         var viewer = new Viewer("cesiumContainer");

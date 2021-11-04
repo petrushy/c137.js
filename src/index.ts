@@ -1,6 +1,5 @@
 import { rollup } from "rollup";
 import type { OutputOptions } from "rollup";
-import { terser } from "rollup-plugin-terser";
 import { replace } from "./rollup-plugins/rollup-plugin-replace-file.js";
 import { prep, transformPlugin, injectWorkers } from "./rollup-plugins/rollup-plugin-prep-source.js";
 import { writeFileSync, readFileSync } from "fs";
@@ -41,7 +40,6 @@ ${bootstrapper}
 const bundleMain = await rollup({
     input: "./cesium/Source/Cesium.js",
     plugins: [
-        terser(),
         prep(),
         replace("./cesium/Source", "./src/source-files/Source", false),
         transformPlugin(),
@@ -55,4 +53,4 @@ const bundleMain = await rollup({
 let mainSrc =
     (await bundleMain.generate(mainOptions)).output[0].code;
 
-writeFileSync(`./dist/c137.mjs`, mainSrc);
+writeFileSync(`./dist/c137.mjs`, await (mainSrc));
