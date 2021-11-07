@@ -1,0 +1,16 @@
+{
+  "name": "viewercssmixin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "viewerCSSMixin.js",
+  "external": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./build.mjs && cp viewerCSSMixin.js ../../source-files/Source/Widgets/Viewer/"
+  },
+  "author": "DigitalArsenal.IO, Inc.",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "clean-css": "^5.2.2"
+  }
+}
