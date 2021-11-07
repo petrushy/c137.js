@@ -1,16 +1,18 @@
 {
   "name": "viewercssmixin",
   "version": "1.0.0",
+  "type":"module",
   "description": "",
   "main": "viewerCSSMixin.js",
   "external": [],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node ./build.mjs && cp viewerCSSMixin.js ../../source-files/Source/Widgets/Viewer/"
+    "build": "node --loader ts-node/esm ./build.ts && cp viewerCSSMixin.js ../../source-files/Source/Widgets/Viewer/"
   },
   "author": "DigitalArsenal.IO, Inc.",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/clean-css": "^4.2.5",
     "clean-css": "^5.2.2"
   }
 }
