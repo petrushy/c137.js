@@ -220,45 +220,49 @@
           4081407.9342479417
         );
 
-        var count = 30;
-        var cartesians = new Array(count);
-        for (var i = 0; i < count; ++i) {
-          var offset = i / (count - 1);
-          cartesians[i] = Cesium.Cartesian3.lerp(
-            cartesian1,
-            cartesian2,
-            offset,
-            new Cesium.Cartesian3()
-          );
-        }
+        setTimeout(() => {
+          var count = 30;
+          var cartesians = new Array(count);
+          for (var i = 0; i < count; ++i) {
+            var offset = i / (count - 1);
+            cartesians[i] = Cesium.Cartesian3.lerp(
+              cartesian1,
+              cartesian2,
+              offset,
+              new Cesium.Cartesian3()
+            );
+          }
+          scene
+            .clampToHeightMostDetailed(cartesians)
+            .then(function (clampedCartesians) {
+              for (var i = 0; i < count; ++i) {
+                viewer.entities.add({
+                  position: clampedCartesians[i],
+                  ellipsoid: {
+                    radii: new Cesium.Cartesian3(0.2, 0.2, 0.2),
+                    material: Cesium.Color.RED,
+                  },
+                });
+              }
 
-        scene
-          .clampToHeightMostDetailed(cartesians)
-          .then(function (clampedCartesians) {
-            for (var i = 0; i < count; ++i) {
               viewer.entities.add({
-                position: clampedCartesians[i],
-                ellipsoid: {
-                  radii: new Cesium.Cartesian3(0.2, 0.2, 0.2),
-                  material: Cesium.Color.RED,
+                polyline: {
+                  positions: clampedCartesians,
+                  arcType: Cesium.ArcType.NONE,
+                  width: 2,
+                  material: new Cesium.PolylineOutlineMaterialProperty({
+                    color: Cesium.Color.YELLOW,
+                  }),
+                  depthFailMaterial: new Cesium.PolylineOutlineMaterialProperty(
+                    {
+                      color: Cesium.Color.YELLOW,
+                    }
+                  ),
                 },
               });
-            }
-
-            viewer.entities.add({
-              polyline: {
-                positions: clampedCartesians,
-                arcType: Cesium.ArcType.NONE,
-                width: 2,
-                material: new Cesium.PolylineOutlineMaterialProperty({
-                  color: Cesium.Color.YELLOW,
-                }),
-                depthFailMaterial: new Cesium.PolylineOutlineMaterialProperty({
-                  color: Cesium.Color.YELLOW,
-                }),
-              },
             });
-          });
+        }, 5000);
+
         var position = Cartesian3.fromDegrees(-123.0744619, 44.0503706, 10000);
         var heading = CesiumMath.toRadians(135);
         var pitch = 0;
@@ -276,7 +280,7 @@
             maximumScale: 20000,
           },
         });
-
+        
         //grid
         let dd;
         let debounce = 1;
@@ -601,7 +605,7 @@
           }`;
         }
 
-        viewer.camera.percentageChanged = 0.01;
+        viewer.camera.percentageChanged = 0.05;
         viewer.scene.camera.changed.addEventListener((e) => {
           render();
         });
