@@ -6,7 +6,10 @@
     <!-- Tell IE to use the latest, best version. -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
     <title>Cesium Viewer</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <style>
@@ -84,7 +87,11 @@
         SampledPositionProperty,
         ExtrapolationType,
         Transforms,
-        HeadingPitchRoll
+        HeadingPitchRoll,
+        Rectangle,
+        LabelCollection,
+        PolylineCollection,
+        NearFarScalar,
       } from "../dist/c137.mjs";
 
       import * as Cesium from "../dist/c137.mjs";
@@ -99,7 +106,12 @@
           var positions = [];
           for (var i = 0; i < 360; i++) {
             var radians = CesiumMath.toRadians(i);
-            positions.push(new Cartesian2(radius * Math.cos(radians), radius * Math.sin(radians)));
+            positions.push(
+              new Cartesian2(
+                radius * Math.cos(radians),
+                radius * Math.sin(radians)
+              )
+            );
           }
           return positions;
         }
@@ -110,7 +122,10 @@
           var positions = new Array(length);
           for (var i = 0; i < length; i++) {
             var r = i % 2 === 0 ? rOuter : rInner;
-            positions[i] = new Cartesian2(Math.cos(i * angle) * r, Math.sin(i * angle) * r);
+            positions[i] = new Cartesian2(
+              Math.cos(i * angle) * r,
+              Math.sin(i * angle) * r
+            );
           }
           return positions;
         }
@@ -118,32 +133,43 @@
         var redTube = viewer.entities.add({
           name: "Red tube with rounded corners",
           polylineVolume: {
-            positions: Cartesian3.fromDegreesArray([-85.0, 32.0, -85.0, 36.0, -89.0, 36.0]),
+            positions: Cartesian3.fromDegreesArray([
+              -85.0, 32.0, -85.0, 36.0, -89.0, 36.0,
+            ]),
             shape: computeCircle(60000.0),
-            material: Color.RED
-          }
+            material: Color.RED,
+          },
         });
 
         var greenBox = viewer.entities.add({
           name: "Green box with beveled corners and outline",
           polylineVolume: {
-            positions: Cartesian3.fromDegreesArrayHeights([-90.0, 32.0, 0.0, -90.0, 36.0, 100000.0, -94.0, 36.0, 0.0]),
-            shape: [new Cartesian2(-50000, -50000), new Cartesian2(50000, -50000), new Cartesian2(50000, 50000), new Cartesian2(-50000, 50000)],
+            positions: Cartesian3.fromDegreesArrayHeights([
+              -90.0, 32.0, 0.0, -90.0, 36.0, 100000.0, -94.0, 36.0, 0.0,
+            ]),
+            shape: [
+              new Cartesian2(-50000, -50000),
+              new Cartesian2(50000, -50000),
+              new Cartesian2(50000, 50000),
+              new Cartesian2(-50000, 50000),
+            ],
             cornerType: CornerType.BEVELED,
             material: Color.GREEN.withAlpha(0.5),
             outline: true,
-            outlineColor: Color.BLACK
-          }
+            outlineColor: Color.BLACK,
+          },
         });
 
         var blueStar = viewer.entities.add({
           name: "Blue star with mitered corners and outline",
           polylineVolume: {
-            positions: Cartesian3.fromDegreesArrayHeights([-95.0, 32.0, 0.0, -95.0, 36.0, 100000.0, -99.0, 36.0, 200000.0]),
+            positions: Cartesian3.fromDegreesArrayHeights([
+              -95.0, 32.0, 0.0, -95.0, 36.0, 100000.0, -99.0, 36.0, 200000.0,
+            ]),
             shape: computeStar(7, 70000, 50000),
             cornerType: CornerType.MITERED,
-            material: Color.BLUE
-          }
+            material: Color.BLUE,
+          },
         });
 
         window.viewer = viewer;
@@ -153,61 +179,86 @@
             positions: Cartesian3.fromDegreesArray([-75, 35, -125, 35]),
             width: 5,
             material: Color.RED,
-            clampToGround: true
-          }
+            clampToGround: true,
+          },
         });
         let { scene } = viewer;
         if (!scene.clampToHeightSupported) {
-          window.alert("This browser does not support clampToHeightMostDetailed.");
+          window.alert(
+            "This browser does not support clampToHeightMostDetailed."
+          );
         }
 
         var tileset = scene.primitives.add(
           new Cesium.Cesium3DTileset({
-            url: Cesium.IonResource.fromAssetId(40866)
+            url: Cesium.IonResource.fromAssetId(40866),
           })
         );
 
         scene.camera.setView({
-          destination: new Cesium.Cartesian3(1216411.0748779264, -4736313.10747583, 4081359.5125561724),
-          orientation: new Cesium.HeadingPitchRoll(4.239925103568368, -0.4911293834802475, 6.279849292088564),
-          endTransform: Cesium.Matrix4.IDENTITY
+          destination: new Cesium.Cartesian3(
+            1216411.0748779264,
+            -4736313.10747583,
+            4081359.5125561724
+          ),
+          orientation: new Cesium.HeadingPitchRoll(
+            4.239925103568368,
+            -0.4911293834802475,
+            6.279849292088564
+          ),
+          endTransform: Cesium.Matrix4.IDENTITY,
         });
 
-        var cartesian1 = new Cesium.Cartesian3(1216390.063324395, -4736314.814479433, 4081341.9787972216);
-        var cartesian2 = new Cesium.Cartesian3(1216329.5413318684, -4736272.029009798, 4081407.9342479417);
+        var cartesian1 = new Cesium.Cartesian3(
+          1216390.063324395,
+          -4736314.814479433,
+          4081341.9787972216
+        );
+        var cartesian2 = new Cesium.Cartesian3(
+          1216329.5413318684,
+          -4736272.029009798,
+          4081407.9342479417
+        );
 
         var count = 30;
         var cartesians = new Array(count);
         for (var i = 0; i < count; ++i) {
           var offset = i / (count - 1);
-          cartesians[i] = Cesium.Cartesian3.lerp(cartesian1, cartesian2, offset, new Cesium.Cartesian3());
+          cartesians[i] = Cesium.Cartesian3.lerp(
+            cartesian1,
+            cartesian2,
+            offset,
+            new Cesium.Cartesian3()
+          );
         }
 
-        scene.clampToHeightMostDetailed(cartesians).then(function (clampedCartesians) {
-          for (var i = 0; i < count; ++i) {
-            viewer.entities.add({
-              position: clampedCartesians[i],
-              ellipsoid: {
-                radii: new Cesium.Cartesian3(0.2, 0.2, 0.2),
-                material: Cesium.Color.RED
-              }
-            });
-          }
-
-          viewer.entities.add({
-            polyline: {
-              positions: clampedCartesians,
-              arcType: Cesium.ArcType.NONE,
-              width: 2,
-              material: new Cesium.PolylineOutlineMaterialProperty({
-                color: Cesium.Color.YELLOW
-              }),
-              depthFailMaterial: new Cesium.PolylineOutlineMaterialProperty({
-                color: Cesium.Color.YELLOW
-              })
+        scene
+          .clampToHeightMostDetailed(cartesians)
+          .then(function (clampedCartesians) {
+            for (var i = 0; i < count; ++i) {
+              viewer.entities.add({
+                position: clampedCartesians[i],
+                ellipsoid: {
+                  radii: new Cesium.Cartesian3(0.2, 0.2, 0.2),
+                  material: Cesium.Color.RED,
+                },
+              });
             }
+
+            viewer.entities.add({
+              polyline: {
+                positions: clampedCartesians,
+                arcType: Cesium.ArcType.NONE,
+                width: 2,
+                material: new Cesium.PolylineOutlineMaterialProperty({
+                  color: Cesium.Color.YELLOW,
+                }),
+                depthFailMaterial: new Cesium.PolylineOutlineMaterialProperty({
+                  color: Cesium.Color.YELLOW,
+                }),
+              },
+            });
           });
-        });
         var position = Cartesian3.fromDegrees(-123.0744619, 44.0503706, 10000);
         var heading = CesiumMath.toRadians(135);
         var pitch = 0;
@@ -222,9 +273,352 @@
           model: {
             uri: "./models/active.glb",
             minimumPixelSize: 128,
-            maximumScale: 20000
-          }
+            maximumScale: 20000,
+          },
         });
+
+        //grid
+        let dd;
+        let debounce = 1;
+        let lastRefresh = 0;
+        const { toRadians, toDegrees } = CesiumMath;
+        const { camera, canvas } = viewer;
+        const { MAX_VALUE, fromCartographicArray } = Rectangle;
+        const { ellipsoid } = scene.globe;
+        const { abs, min, max, ceil, PI, round } = Math;
+        let useLabels = true;
+        let lineAlpha = 0.3;
+        let isMobile = navigator.maxTouchPoints > 1;
+        let mins = new Array(8)
+          .fill(0.025)
+          .map((x, i) => {
+            return x / 2 ** i;
+          })
+          .reverse()
+          .concat([0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0])
+          .map(toRadians);
+
+        let gridCountBase = 10;
+        let gridCount = gridCountBase;
+        let granularity = toRadians(1);
+        let cameraG = 12;
+        function getExtentView() {
+          let corners = [];
+          let { width, height } = canvas;
+
+          for (let y = 0; y <= cameraG; y++) {
+            for (let x = 0; x <= cameraG; x++) {
+              corners.push(
+                new Cartesian2((x / cameraG) * width, (y / cameraG) * height)
+              );
+            }
+          }
+          let c3 = [];
+          for (var index = 0; index < corners.length; index++) {
+            c3[index] = camera.pickEllipsoid(corners[index], ellipsoid);
+            if (c3[index] === undefined) {
+              return Rectangle.MAX_VALUE;
+            }
+          }
+          return Rectangle.fromCartographicArray(
+            ellipsoid.cartesianArrayToCartographicArray(c3)
+          );
+        }
+
+        let labels = new LabelCollection();
+        let polylines = new PolylineCollection();
+        scene.primitives.add(labels);
+        scene.primitives.add(polylines);
+        let currentExtent = getExtentView();
+
+        function updateLabelPositions() {
+          let center = Cesium.Cartographic.fromCartesian(
+            screenCenterPosition()
+          );
+          var len = labels.length;
+          for (var i = 0; i < len; ++i) {
+            var b = labels.get(i);
+            let carto = Cesium.Cartographic.fromCartesian(b.position);
+            if (b["isLat"]) carto.longitude = center.longitude;
+            else carto.latitude = center.latitude;
+            b.position = ellipsoid.cartographicToCartesian(carto);
+          }
+        }
+        function clear() {
+          polylines.removeAll();
+          labels.removeAll();
+        }
+        function render() {
+          try {
+            let lr = lastRefresh;
+            let now = new Date().getTime();
+            if (now - lr < debounce) return;
+            updateLabelPositions();
+            let extent = getExtentView();
+            let shouldRefresh = true;
+            if (currentExtent) {
+              let w = abs(extent.west - currentExtent.west),
+                s = abs(extent.south - currentExtent.south),
+                e = abs(extent.east - currentExtent.east),
+                n = abs(extent.north - currentExtent.north);
+              let m = mins[0] / cameraG;
+              if (w < m && s < m && e < m && n < m) shouldRefresh = false;
+            }
+            if (!shouldRefresh && labels.length) return;
+            currentExtent = extent;
+            clearTimeout(dd);
+            dd = setTimeout(() => {
+              drawGrid(extent);
+              lastRefresh = +now;
+            }, debounce);
+          } catch (e) {}
+        }
+
+        function drawGrid(extent) {
+          if (!extent) extent = getExtentView();
+          extent = Object.assign({}, extent);
+          let wrapLng = undefined;
+          if (extent.east < extent.west) {
+            wrapLng = MAX_VALUE.east + abs(-MAX_VALUE.east - extent.east);
+          }
+          clear();
+          var dLat = mins[0],
+            dLng = mins[0],
+            index;
+
+          // get the nearest to the calculated value
+          for (
+            index = 0;
+            index < mins.length &&
+            dLat < (extent.north - extent.south) / gridCount;
+            index++
+          ) {
+            dLat = mins[index];
+          }
+
+          for (
+            index = 0;
+            index < mins.length &&
+            dLng <
+              ((wrapLng === undefined ? extent.east : wrapLng) - extent.west) /
+                gridCount;
+            index++
+          ) {
+            dLng = mins[index];
+          }
+          let center = Cesium.Cartographic.fromCartesian(
+            screenCenterPosition()
+          );
+          if (
+            center.latitude > toRadians(75) ||
+            center.latitude < toRadians(-75)
+          ) {
+          } else if (dLng !== dLat) {
+            dLng = dLat = min(dLat, dLng);
+          }
+          // round iteration limits to the computed grid interval
+          var minLng =
+            (extent.west < 0
+              ? ceil(extent.west / dLng)
+              : ~~(extent.west / dLng)) * dLng;
+          var minLat =
+            (extent.south < 0
+              ? ceil(extent.south / dLat)
+              : ~~(extent.south / dLat)) * dLat;
+          var maxLng =
+            (extent.east < 0
+              ? ceil(extent.east / dLat)
+              : ~~(extent.east / dLat)) * dLat;
+          var maxLat =
+            (extent.north < 0
+              ? ceil(extent.north / dLng)
+              : ~~(extent.north / dLng)) * dLng;
+
+          // extend to make sure we cover for non refresh of tiles
+          minLng = max(minLng - 10 * dLng, -PI);
+          maxLng = min(maxLng + 10 * dLng, PI);
+          minLat = max(minLat - 10 * dLat, -PI / 2);
+          maxLat = min(maxLat + 10 * dLng, PI / 2);
+
+          var lat, lng;
+
+          var lineGraphicsObj = (positions, color) => {
+            return {
+              positions,
+              width: 0.5,
+              material: Cesium.Material.fromType("Color", {
+                color: color.withAlpha(lineAlpha),
+              }),
+            };
+          };
+
+          // labels positions
+          var latitudeText = minLat + ~~((maxLat - minLat) / dLat / 2) * dLat;
+          let tLng = wrapLng === undefined ? maxLng : wrapLng;
+          let lngCount = 0;
+          for (let _lng = minLng; _lng < tLng; _lng += dLng) {
+            if (maxLng > MAX_VALUE.east) {
+              lng = extent._east - (_lng - MAX_VALUE.east);
+            } else {
+              lng = _lng;
+            }
+            // draw meridian
+            var path = [];
+            for (lat = minLat; lat < maxLat; lat += granularity) {
+              path.push(new Cesium.Cartographic(lng, lat));
+            }
+            path.push(new Cesium.Cartographic(lng, maxLat));
+            var degLng = toDegrees(lng);
+            let text = convertDEGToDMS(
+              degLng.toFixed(gridPrecision(dLng)),
+              false
+            );
+            let color =
+              text === "0°E" || text === "180°E"
+                ? Cesium.Color.YELLOW
+                : Cesium.Color.WHITE;
+            if (text !== "180°W") {
+              polylines.add(
+                lineGraphicsObj(
+                  ellipsoid.cartographicArrayToCartesianArray(path),
+                  color
+                )
+              );
+              if (lngCount % 2) {
+                makeLabel(lng, latitudeText, text, false);
+              }
+              lngCount++;
+            }
+          }
+
+          // lats
+          var longitudeText = minLng + ~~((tLng - minLng) / dLng / 2) * dLng;
+          let latCount = 0;
+          for (lat = minLat; lat < maxLat; lat += dLat) {
+            // draw parallels
+            var path = [];
+            for (lng = minLng; lng < tLng; lng += granularity) {
+              path.push(new Cesium.Cartographic(lng, lat));
+            }
+            path.push(new Cesium.Cartographic(maxLng, lat));
+            var degLat = toDegrees(lat);
+            let text = convertDEGToDMS(
+              degLat.toFixed(gridPrecision(dLat)),
+              true
+            );
+            let color =
+              text === "0°N" ? Cesium.Color.YELLOW : Cesium.Color.WHITE;
+            polylines.add(
+              lineGraphicsObj(
+                ellipsoid.cartographicArrayToCartesianArray(path),
+                color
+              )
+            );
+            if (latCount % 2) {
+              makeLabel(longitudeText, lat, text, true);
+            }
+            latCount++;
+          }
+        }
+        viewer.scene["fxaa"] = true;
+        function makeLabel(
+          lng,
+          lat,
+          text,
+          isLat,
+          color = Cesium.Color.WHITE,
+          meridians = false
+        ) {
+          if (meridians) {
+            if (text === "0°N") text = "Equator";
+            if (text === "0°E") text = "Prime Meridian";
+            if (text === "180°E") text = "Antimeridian";
+          }
+          let center = Cesium.Cartographic.fromCartesian(
+            screenCenterPosition()
+          );
+          let carto = new Cesium.Cartographic(lng, lat);
+          if (isLat) carto.longitude = center.longitude;
+          else carto.latitude = center.latitude;
+          let position = ellipsoid.cartographicToCartesian(carto);
+          let label = labels.add({
+            position,
+            text,
+            show: useLabels,
+            font: `bold 1rem Arial`,
+            fillColor: color.withAlpha(lineAlpha),
+            outlineColor: Cesium.Color.BLACK.withAlpha(lineAlpha),
+            outlineWidth: 4,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            pixelOffset: new Cartesian2(isLat ? 0 : 4, isLat ? -6 : 0),
+            eyeOffset: Cesium.Cartesian3.ZERO,
+            horizontalOrigin: isLat
+              ? Cesium.HorizontalOrigin.CENTER
+              : Cesium.HorizontalOrigin.CENTER,
+            verticalOrigin: isLat
+              ? Cesium.VerticalOrigin.BOTTOM
+              : Cesium.VerticalOrigin.TOP,
+            scale: 1,
+            scaleByDistance: new NearFarScalar(1, 0.9, 6.0e8, 0),
+          });
+          label["isLat"] = isLat;
+        }
+
+        function gridPrecision(dDeg) {
+          if (dDeg < 0.01) return 3;
+          if (dDeg < 0.1) return 2;
+          if (dDeg < 1) return 1;
+          return 0;
+        }
+
+        function screenCenterPosition() {
+          let canvas = scene.canvas;
+          let center = new Cartesian2(
+            round(canvas.clientWidth / 2),
+            round(canvas.clientHeight / 2)
+          );
+          var cartesian = camera.pickEllipsoid(center);
+
+          if (!cartesian) cartesian = Cesium.Cartesian3.fromDegrees(0, 0, 0);
+          return cartesian;
+        }
+
+        //TODO BLACK OUTLINE TEXT
+        function convertDEGToDMS(deg, lat) {
+          var absolute = abs(deg);
+
+          var degrees = ~~absolute;
+          var minutesNotTruncated = round((absolute - degrees) * 600) / 10;
+          var minutes = ~~minutesNotTruncated;
+          var seconds = ((minutesNotTruncated - minutes) * 60).toFixed(2);
+
+          let minSec = "";
+          if (minutes || seconds !== "0.00") minSec += minutes + "'";
+          if (seconds !== "0.00") minSec += seconds + '"';
+          minSec = minSec.padStart(2, "0");
+          return `${degrees}°${minSec !== "00" ? minSec : ""}${
+            lat ? (deg >= 0 ? "N" : "S") : deg >= 0 ? "E" : "W"
+          }`;
+        }
+
+        viewer.camera.percentageChanged = 0.01;
+        viewer.scene.camera.changed.addEventListener((e) => {
+          render();
+        });
+        let infoBox = document.getElementsByClassName("cesium-infoBox")[0];
+        infoBox.style.position = "fixed";
+        infoBox.style.bottom = "10px";
+        infoBox.style.top = "70%";
+        infoBox.style.minHeight = "130px";
+
+        let textBox = document.getElementsByClassName(
+          "cesium-credit-textContainer"
+        )[0];
+        textBox.style.display = "none";
+        viewer.container.addEventListener("resize", render);
+        viewer.scene.debugShowFramesPerSecond = true;
+
+        render();
       }
       window.onload = main;
     </script>
