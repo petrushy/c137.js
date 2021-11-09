@@ -61,4 +61,8 @@ const bundleMain = await rollup({
 let mainSrc =
     (await bundleMain.generate(mainOptions)).output[0].code;
 
-writeFileSync(`./dist/c137.mjs`, (await minify(mainSrc)).code as string);
+let lisc = readFileSync('./cesium/Source/copyrightHeader.js');
+mainSrc = `${lisc}
+    ${(await minify(mainSrc)).code as string}`;
+
+writeFileSync(`./dist/c137.mjs`, mainSrc);
