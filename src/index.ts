@@ -25,6 +25,10 @@ const bootstrapper = readFileSync(
 
 const bundleWorkers = await rollup({
     input: "./cesium/Source/Workers/cesiumWorkers.js",
+    onwarn(warning, warn) {
+        if (warning.code === 'THIS_IS_UNDEFINED') return;
+        warn(warning);
+    },
     plugins: [
         prep(),
         replace("./cesium/Source", "./src/source-files/Source", false),
@@ -39,6 +43,10 @@ ${bootstrapper}
 
 const bundleMain = await rollup({
     input: "./cesium/Source/Cesium.js",
+    onwarn(warning, warn) {
+        if (warning.code === 'THIS_IS_UNDEFINED') return;
+        warn(warning);
+    },
     plugins: [
         prep(),
         replace("./cesium/Source", "./src/source-files/Source", false),
