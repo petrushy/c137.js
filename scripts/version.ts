@@ -1,5 +1,4 @@
-import { fstat, readFileSync, writeFileSync } from "fs";
-import { JSONSchemaForNPMPackageJsonFiles } from "@schemastore/package";
+import { writeFileSync } from "fs";
 import cPJ from "../cesium/package.json";
 import packageJSON from '../package.json';
 
