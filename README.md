@@ -4,6 +4,12 @@ C137.js is an es6 [Cesium](https://cesiumjs.org) distribution that is compact, o
 
 <br>
 
+## Source
+
+[Github Repository](https://github.com/DigitalArsenal/c137.js)
+
+<br>
+
 ## Installation
 
 ```bash
@@ -35,6 +41,6 @@ viewer = new Viewer("cesiumContainer");
 
 ## Donation / Signing Address:
 
- [1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7](https://live.blockcypher.com/btc/address/1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7)
+[1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7](https://live.blockcypher.com/btc/address/1o1oiXfMHPXMY6kxeZfXSHsYKWp9DqtU7)
 
 <br>

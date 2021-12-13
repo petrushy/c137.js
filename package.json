@@ -1,5 +1,5 @@
 {
-  "name": "c137",
+  "name": "c137.js",
   "version": "1.88.0",
   "description": "A single-file distribution of CesiumJS",
   "main": "dist/c137.mjs",
